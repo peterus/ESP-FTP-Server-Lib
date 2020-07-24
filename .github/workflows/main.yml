@@ -1,0 +1,18 @@
+name: PlatformIO CI
+
+on:
+	push:
+		branches: [ master ]
+	pull_request:
+		branches: [ master ]
+
+jobs:
+	precompile:
+		runs-on: ubuntu-latest
+		steps:
+			- run: sudo apt-get install python3-setuptools python3-wheel
+			- run: pip3 install platformio
+			- run: echo "::add-path::~/.local/bin"
+			- uses: actions/checkout@v2
+			- run: platformio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high
+#      - run: platformio run
