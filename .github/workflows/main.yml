@@ -16,4 +16,4 @@ jobs:
 			- uses: actions/checkout@v2
 			- run: ln -s examples/test.cpp src/test.cpp
 			- run: platformio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high
-#      - run: platformio run
+      - run: platformio run
