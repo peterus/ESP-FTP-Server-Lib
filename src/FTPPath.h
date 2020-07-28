@@ -8,7 +8,7 @@ class FTPPath
 {
 public:
 	FTPPath();
-	FTPPath(String path);
+	explicit FTPPath(String path);
 	virtual ~FTPPath();
 
 	void changePath(String path);

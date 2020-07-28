@@ -7,9 +7,9 @@
 class CWD : public FTPCommand
 {
 public:
-	CWD(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("CWD", 1, Client, Filesystem) {}
+	explicit CWD(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("CWD", 1, Client, Filesystem) {}
 
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		FTPPath path = WorkDirectory;
 		Serial.println(Line[1]);

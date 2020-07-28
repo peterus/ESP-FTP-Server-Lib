@@ -1,7 +1,7 @@
 #include "ESP-FTP-Server-Lib.h"
 
 FTPServer::FTPServer()
-	: _Server(FTP_CTRL_PORT, 1)
+	: _Server(FTP_CTRL_PORT, 1), _Filesystem(0)
 {
 }
 

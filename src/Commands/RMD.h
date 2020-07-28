@@ -7,9 +7,9 @@
 class RMD : public FTPCommand
 {
 public:
-	RMD(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("RMD", 1, Client, Filesystem) {}
+	explicit RMD(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("RMD", 1, Client, Filesystem) {}
 
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		String filepath = WorkDirectory.getFilePath(Line[1]);
 		if(!_Filesystem->exists(filepath))

@@ -7,9 +7,9 @@
 class TYPE : public FTPCommand
 {
 public:
-	TYPE(WiFiClient * const Client) : FTPCommand("TYPE", 1, Client) {}
+	explicit TYPE(WiFiClient * const Client) : FTPCommand("TYPE", 1, Client) {}
 	
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		if(Line[1] == "A")
 		{

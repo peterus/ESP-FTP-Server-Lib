@@ -7,9 +7,9 @@
 class DELE : public FTPCommand
 {
 public:
-	DELE(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("DELE", 1, Client, Filesystem) {}
+	explicit DELE(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("DELE", 1, Client, Filesystem) {}
 
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		String filepath = WorkDirectory.getFilePath(Line[1]);
 		if(!_Filesystem->exists(filepath))

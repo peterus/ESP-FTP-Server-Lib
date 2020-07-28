@@ -8,11 +8,11 @@
 class LIST : public FTPCommand
 {
 public:
-	LIST(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
+	explicit LIST(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommand("LIST", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
 	
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		if(!ConnectDataConnection())
 		{

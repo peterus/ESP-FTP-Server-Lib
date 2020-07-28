@@ -7,9 +7,9 @@
 class CDUP : public FTPCommand
 {
 public:
-	CDUP(WiFiClient * const Client) : FTPCommand("CDUP", 0, Client) {}
+	explicit CDUP(WiFiClient * const Client) : FTPCommand("CDUP", 0, Client) {}
 	
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		WorkDirectory.goPathUp();
 		SendResponse(250, "Ok. Current directory is " + WorkDirectory.getPath());

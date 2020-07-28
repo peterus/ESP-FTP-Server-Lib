@@ -7,9 +7,9 @@
 class PWD : public FTPCommand
 {
 public:
-	PWD(WiFiClient * const Client) : FTPCommand("PWD", 0, Client) {}
+	explicit PWD(WiFiClient * const Client) : FTPCommand("PWD", 0, Client) {}
 
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		SendResponse(257, "\"" + WorkDirectory.getPath() + "\" is your current directory");
 	}

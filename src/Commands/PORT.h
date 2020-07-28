@@ -8,11 +8,11 @@
 class PORT : public FTPCommand
 {
 public:
-	PORT(WiFiClient * const Client, IPAddress * DataAddress, int * DataPort)
+	explicit PORT(WiFiClient * const Client, IPAddress * DataAddress, int * DataPort)
 		: FTPCommand("PORT", 1, Client, 0, DataAddress, DataPort)
 	{}
 	
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		std::vector<String> connection_details = Split(Line[1], ',');
 		for(int i = 0; i < 4; i++)

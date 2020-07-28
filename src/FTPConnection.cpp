@@ -13,7 +13,7 @@
 #include "Commands/STOR.h"
 #include "Commands/TYPE.h"
 
-FTPConnection::FTPConnection(WiFiClient Client, std::list<FTPUser> & UserList, FS * const Filesystem)
+FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & UserList, FS * const Filesystem)
 	: _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
 {
 	std::shared_ptr<FTPCommandTransfer> retr = std::shared_ptr<FTPCommandTransfer>(new RETR(&_Client, _Filesystem, &_DataAddress, &_DataPort));

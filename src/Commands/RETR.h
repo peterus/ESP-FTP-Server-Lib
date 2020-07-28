@@ -10,11 +10,11 @@
 class RETR : public FTPCommandTransfer
 {
 public:
-	RETR(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
+	explicit RETR(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommandTransfer("RETR", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
 	
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		if(trasferInProgress())
 		{
@@ -35,7 +35,7 @@ public:
 		workOnData();
 	}
 
-	void workOnData()
+	void workOnData() override
 	{
 		uint8_t buffer[FTP_BUF_SIZE];
 		size_t nb = _file.read(buffer, FTP_BUF_SIZE);

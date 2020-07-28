@@ -7,9 +7,9 @@
 class RNFR_RNTO : public FTPCommand
 {
 public:
-	RNFR_RNTO(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("RN", 1, Client, Filesystem), _fromSet(false) {}
+	explicit RNFR_RNTO(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("RN", 1, Client, Filesystem), _fromSet(false) {}
 
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		if(Line[0] == "RNFR")
 		{
@@ -21,7 +21,7 @@ public:
 		}
 	}
 
-	void from(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void from(const FTPPath & WorkDirectory, const std::vector<String> & Line)
 	{
 		String filepath = WorkDirectory.getFilePath(Line[1]);
 		if(!_Filesystem->exists(filepath))
@@ -34,7 +34,7 @@ public:
 		SendResponse(350, "RNFR accepted - file exists, ready for destination");
 	}
 
-	void to(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void to(const FTPPath & WorkDirectory, const std::vector<String> & Line)
 	{
 		if(!_fromSet)
 		{

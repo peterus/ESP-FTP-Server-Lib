@@ -10,11 +10,11 @@
 class STOR : public FTPCommandTransfer
 {
 public:
-	STOR(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
+	explicit STOR(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommandTransfer("STOR", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
 	
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line)
+	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		if(trasferInProgress())
 		{
@@ -35,7 +35,7 @@ public:
 		workOnData();
 	}
 
-	void workOnData()
+	void workOnData() override
 	{
 		uint8_t buffer[FTP_BUF_SIZE];
 		int nb = data_read(buffer, FTP_BUF_SIZE);
