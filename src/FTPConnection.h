@@ -32,6 +32,10 @@ private:
 		UsernamePass,
 		AuthPass,
 	};
+
+	void c_USER();
+	void c_PASS();
+
 	ClientState _ClientState;
 	WiFiClient _Client;
 	FS * const _Filesystem;
@@ -47,9 +51,6 @@ private:
 	int _DataPort;
 
 	FTPPath _WorkDirectory;
-
-	void c_USER();
-	void c_PASS();
 
 	std::vector<std::shared_ptr<FTPCommand>> _FTPCommands;
 	std::vector<std::shared_ptr<FTPCommandTransfer>> _FTPCommandsTransfer;

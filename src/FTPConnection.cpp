@@ -131,12 +131,19 @@ bool FTPConnection::handle()
 		break;
 
 	case AuthPass:
-		for(std::shared_ptr<FTPCommand> cmd: _FTPCommands)
 		{
-			if(command == cmd->getName() || (cmd->getName() == "RN" && (command == "RNFR" || command == "RNTO")))
+			std::vector<std::shared_ptr<FTPCommand>>::iterator cmdIter = std::find_if(_FTPCommands.begin(), _FTPCommands.end(), [&](std::shared_ptr<FTPCommand> cmd)
+				{
+					if(command == cmd->getName() || (cmd->getName() == "RN" && (command == "RNFR" || command == "RNTO")))
+					{
+						return true;
+					}
+					return false;
+				}
+			);
+			if(cmdIter != _FTPCommands.end())
 			{
-				cmd->run(_WorkDirectory, _LineSplited);
-
+				(*cmdIter)->run(_WorkDirectory, _LineSplited);
 				_Line = "";
 				return true;
 			}
@@ -157,29 +164,44 @@ bool FTPConnection::connected()
 
 void FTPConnection::c_USER()
 {
-	for(FTPUser user: _UserList)
-	{
-		if(_LineSplited[1] == user.Username)
+	String username = _LineSplited[1];
+	std::list<FTPUser>::iterator userIter = std::find_if(_UserList.begin(), _UserList.end(), [&](const FTPUser & user)
 		{
-			_AuthUsername = user.Username;
-			_Client.println("331 OK. Password required");
-			_ClientState = UsernamePass;
-			return;
+			if(username == user.Username)
+			{
+				return true;
+			}
+			return false;
 		}
+	);
+	if(userIter != _UserList.end())
+	{
+		_AuthUsername = username;
+		_Client.println("331 OK. Password required");
+		_ClientState = UsernamePass;
+		return;
 	}
 	_Client.println("530 user not found");
 }
 
 void FTPConnection::c_PASS()
 {
-	for(FTPUser user: _UserList)
-	{
-		if(_AuthUsername == user.Username && _LineSplited[1] == user.Password)
+	String password = _LineSplited[1];
+	String username = _AuthUsername;
+	std::list<FTPUser>::iterator _user = std::find_if(_UserList.begin(), _UserList.end(), [&](const FTPUser & user)
 		{
-			_Client.println("230 OK.");
-			_ClientState = AuthPass;
-			return;
+			if(username == user.Username && password == user.Password)
+			{
+				return true;
+			}
+			return false;
 		}
+	);
+	if(_user != _UserList.end())
+	{
+		_Client.println("230 OK.");
+		_ClientState = AuthPass;
+		return;
 	}
 	_Client.println("530 passwort not correct");
 }
