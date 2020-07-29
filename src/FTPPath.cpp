@@ -16,11 +16,7 @@ FTPPath::~FTPPath()
 
 void FTPPath::changePath(String path)
 {
-	if(*path.begin() == '/')
-	{
-		_Path.clear();
-	}
-	std::vector<String> p = Split(path, '/');
+	std::list<String> p = splitPath(path);
 	std::copy(p.begin(), p.end(), std::back_inserter(_Path));
 }
 
@@ -31,17 +27,7 @@ void FTPPath::goPathUp()
 
 String FTPPath::getPath() const
 {
-	if(_Path.size() == 0)
-	{
-		return "/";
-	}
-	String path;
-	for(const String & p: _Path)
-	{
-		path += "/";
-		path += p;
-	}
-	return path;
+	return createPath(_Path);
 }
 
 String FTPPath::getFilePath(String filename) const
@@ -55,4 +41,35 @@ String FTPPath::getFilePath(String filename) const
 		return "/" + filename;
 	}
 	return getPath() + "/" + filename;
+}
+
+std::list<String> FTPPath::splitPath(String path)
+{
+	std::list<String> p = Split<std::list<String>>(path, '/');
+	p.erase(
+		std::remove_if(p.begin(), p.end(), [](const String & s)
+			{
+				if(s.isEmpty())
+				{
+					return true;
+				}
+				return false;
+			}),
+		p.end());
+	return p;
+}
+
+String FTPPath::createPath(std::list<String> path)
+{
+	if(path.size() == 0)
+	{
+		return "/";
+	}
+	String new_path;
+	for(const String & p: path)
+	{
+		new_path += "/";
+		new_path += p;
+	}
+	return new_path;
 }

@@ -7,7 +7,7 @@
 class MKD : public FTPCommand
 {
 public:
-	explicit MKD(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("MKD", 1, Client, Filesystem) {}
+	explicit MKD(WiFiClient * const Client, FTPFilesystem * const Filesystem) : FTPCommand("MKD", 1, Client, Filesystem) {}
 
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{

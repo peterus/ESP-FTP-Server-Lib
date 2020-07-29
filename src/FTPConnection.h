@@ -15,7 +15,7 @@
 class FTPConnection
 {
 public:
-	FTPConnection(const WiFiClient & Client, std::list<FTPUser> & UserList, FS * const Filesystem);
+	FTPConnection(const WiFiClient & Client, std::list<FTPUser> & UserList, FTPFilesystem & Filesystem);
 	virtual ~FTPConnection();
 
 	bool readUntilLineEnd();
@@ -38,7 +38,7 @@ private:
 
 	ClientState _ClientState;
 	WiFiClient _Client;
-	FS * const _Filesystem;
+	FTPFilesystem & _Filesystem;
 	String _FilePath;
 	
 	String _Line;

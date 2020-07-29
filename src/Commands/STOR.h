@@ -10,7 +10,7 @@
 class STOR : public FTPCommandTransfer
 {
 public:
-	explicit STOR(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
+	explicit STOR(WiFiClient * const Client, FTPFilesystem * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommandTransfer("STOR", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
 	

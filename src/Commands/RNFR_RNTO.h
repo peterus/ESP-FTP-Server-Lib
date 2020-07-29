@@ -7,7 +7,7 @@
 class RNFR_RNTO : public FTPCommand
 {
 public:
-	explicit RNFR_RNTO(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("RN", 1, Client, Filesystem), _fromSet(false) {}
+	explicit RNFR_RNTO(WiFiClient * const Client, FTPFilesystem * const Filesystem) : FTPCommand("RN", 1, Client, Filesystem), _fromSet(false) {}
 
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{

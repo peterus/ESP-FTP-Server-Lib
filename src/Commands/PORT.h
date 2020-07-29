@@ -14,7 +14,7 @@ public:
 	
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
-		std::vector<String> connection_details = Split(Line[1], ',');
+		std::vector<String> connection_details = Split<std::vector<String>>(Line[1], ',');
 		for(int i = 0; i < 4; i++)
 		{
 			(*_DataAddress)[i] = connection_details[i].toInt();

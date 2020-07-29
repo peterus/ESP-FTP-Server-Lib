@@ -3,13 +3,15 @@
 #include <WiFi.h>
 
 #include "ESP-FTP-Server-Lib.h"
+#include "FTPFilesystem.h"
 
-#define WIFI_SSID ""
-#define WIFI_PASSWORD ""
+#define WIFI_SSID "Buchegger"
+#define WIFI_PASSWORD "PETER@pBuchegger.@"
 
 #define FTP_USER "ftp"
 #define FTP_PASSWORD "ftp"
 
+#ifndef UNIT_TEST
 FTPServer ftp;
 
 void setup()
@@ -37,7 +39,9 @@ void setup()
 
 	ftp.addUser(FTP_USER, FTP_PASSWORD);
 	//ftp.setFilesystem(&SPIFFS);
-	ftp.setFilesystem(&SD);
+	//ftp.setFilesystem(&SD);
+	ftp.addFilesystem("SD", &SD);
+	ftp.addFilesystem("SPIFFS", &SPIFFS);
 
 	ftp.begin();
 
@@ -48,3 +52,4 @@ void loop()
 {
 	ftp.handle();
 }
+#endif

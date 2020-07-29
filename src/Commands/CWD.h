@@ -7,7 +7,7 @@
 class CWD : public FTPCommand
 {
 public:
-	explicit CWD(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("CWD", 1, Client, Filesystem) {}
+	explicit CWD(WiFiClient * const Client, FTPFilesystem * const Filesystem) : FTPCommand("CWD", 1, Client, Filesystem) {}
 
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{

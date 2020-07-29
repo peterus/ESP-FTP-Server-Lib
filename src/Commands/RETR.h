@@ -10,7 +10,7 @@
 class RETR : public FTPCommandTransfer
 {
 public:
-	explicit RETR(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
+	explicit RETR(WiFiClient * const Client, FTPFilesystem * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommandTransfer("RETR", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
 	

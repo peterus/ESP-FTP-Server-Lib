@@ -3,13 +3,13 @@
 
 #include <WiFiClient.h>
 #include <Arduino.h>
-#include <FS.h>
 #include "FTPPath.h"
+#include "FTPFilesystem.h"
 
 class FTPCommand
 {
 public:
-	FTPCommand(String Name, int ExpectedArgumentCnt, WiFiClient * const Client, FS * const Filesystem = 0, IPAddress * DataAddress = 0, int * DataPort = 0)
+	FTPCommand(String Name, int ExpectedArgumentCnt, WiFiClient * const Client, FTPFilesystem * const Filesystem = 0, IPAddress * DataAddress = 0, int * DataPort = 0)
 		: _Name(Name), _ExpectedArgumentCnt(ExpectedArgumentCnt),
 			_Filesystem(Filesystem),
 			_DataAddress(DataAddress), _DataPort(DataPort), _Client(Client), _DataConnection(0) {}
@@ -94,7 +94,7 @@ public:
 protected:
 	String _Name;
 	int _ExpectedArgumentCnt;
-	FS * _Filesystem;
+	FTPFilesystem * const _Filesystem;
 	IPAddress * const _DataAddress;
 	int * const _DataPort;
 
@@ -106,7 +106,7 @@ private:
 class FTPCommandTransfer : public FTPCommand
 {
 public:
-	FTPCommandTransfer(String Name, int ExpectedArgumentCnt, WiFiClient * const Client, FS * const Filesystem = 0, IPAddress * DataAddress = 0, int * DataPort = 0)
+	FTPCommandTransfer(String Name, int ExpectedArgumentCnt, WiFiClient * const Client, FTPFilesystem * const Filesystem = 0, IPAddress * DataAddress = 0, int * DataPort = 0)
 		: FTPCommand(Name, ExpectedArgumentCnt, Client, Filesystem, DataAddress, DataPort) {}
 
 	virtual void workOnData() = 0;

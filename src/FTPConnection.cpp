@@ -13,22 +13,22 @@
 #include "Commands/STOR.h"
 #include "Commands/TYPE.h"
 
-FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & UserList, FS * const Filesystem)
+FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & UserList, FTPFilesystem & Filesystem)
 	: _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
 {
-	std::shared_ptr<FTPCommandTransfer> retr = std::shared_ptr<FTPCommandTransfer>(new RETR(&_Client, _Filesystem, &_DataAddress, &_DataPort));
-	std::shared_ptr<FTPCommandTransfer> stor = std::shared_ptr<FTPCommandTransfer>(new STOR(&_Client, _Filesystem, &_DataAddress, &_DataPort));
+	std::shared_ptr<FTPCommandTransfer> retr = std::shared_ptr<FTPCommandTransfer>(new RETR(&_Client, &_Filesystem, &_DataAddress, &_DataPort));
+	std::shared_ptr<FTPCommandTransfer> stor = std::shared_ptr<FTPCommandTransfer>(new STOR(&_Client, &_Filesystem, &_DataAddress, &_DataPort));
 
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new CDUP(&_Client)));
-	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new CWD(&_Client, _Filesystem)));
-	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new DELE(&_Client, _Filesystem)));
-	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new LIST(&_Client, _Filesystem, &_DataAddress, &_DataPort)));
-	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MKD(&_Client, _Filesystem)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new CWD(&_Client, &_Filesystem)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new DELE(&_Client, &_Filesystem)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new LIST(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MKD(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new PORT(&_Client, &_DataAddress, &_DataPort)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new PWD(&_Client)));
 	_FTPCommands.push_back(retr);
-	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new RMD(&_Client, _Filesystem)));
-	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new RNFR_RNTO(&_Client, _Filesystem)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new RMD(&_Client, &_Filesystem)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new RNFR_RNTO(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(stor);
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new TYPE(&_Client)));
 
@@ -56,7 +56,7 @@ bool FTPConnection::readUntilLineEnd()
 		char c = _Client.read();
 		if(c == '\n')
 		{
-			_LineSplited = Split(_Line, ' ');
+			_LineSplited = Split<std::vector<String>>(_Line, ' ');
 			return true;
 		}
 		if(c >= 32 && c < 127)

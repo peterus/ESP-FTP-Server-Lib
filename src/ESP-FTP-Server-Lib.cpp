@@ -1,7 +1,7 @@
 #include "ESP-FTP-Server-Lib.h"
 
 FTPServer::FTPServer()
-	: _Server(FTP_CTRL_PORT, 1), _Filesystem(0)
+	: _Server(FTP_CTRL_PORT, 1)
 {
 }
 
@@ -20,9 +20,9 @@ void FTPServer::addUser(const FTPUser & User)
 	_UserList.push_back(User);
 }
 
-void FTPServer::setFilesystem(FS * const Filesystem)
+void FTPServer::addFilesystem(String Name, FS * const Filesystem)
 {
-	_Filesystem = Filesystem;
+	_Filesystem.addFilesystem(Name, Filesystem);
 }
 
 bool FTPServer::begin()

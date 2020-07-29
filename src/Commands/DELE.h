@@ -7,7 +7,7 @@
 class DELE : public FTPCommand
 {
 public:
-	explicit DELE(WiFiClient * const Client, FS * const Filesystem) : FTPCommand("DELE", 1, Client, Filesystem) {}
+	explicit DELE(WiFiClient * const Client, FTPFilesystem * const Filesystem) : FTPCommand("DELE", 1, Client, Filesystem) {}
 
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{

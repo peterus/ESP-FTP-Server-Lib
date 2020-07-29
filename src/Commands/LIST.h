@@ -8,7 +8,7 @@
 class LIST : public FTPCommand
 {
 public:
-	explicit LIST(WiFiClient * const Client, FS * const Filesystem, IPAddress * DataAddress, int * DataPort)
+	explicit LIST(WiFiClient * const Client, FTPFilesystem * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommand("LIST", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
 	

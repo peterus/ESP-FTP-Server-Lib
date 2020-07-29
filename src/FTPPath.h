@@ -17,6 +17,9 @@ public:
 	String getPath() const;
 	String getFilePath(String filename) const;
 
+	static std::list<String> splitPath(String path);
+	static String createPath(std::list<String> path);
+
 private:
 	std::list<String> _Path;
 };

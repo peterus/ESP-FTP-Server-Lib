@@ -1,8 +1,10 @@
 #include "common.h"
 
-std::vector<String> Split(String str, char parser)
+/*
+template <typename T>
+T Split(String str, char parser)
 {
-	std::vector<String> str_array;
+	T str_array;
 	int last_idx = 0;
 	int next_idx = str.indexOf(parser, last_idx);
 	do
@@ -17,3 +19,4 @@ std::vector<String> Split(String str, char parser)
 	} while (next_idx != -1);
 	return str_array;
 }
+*/
