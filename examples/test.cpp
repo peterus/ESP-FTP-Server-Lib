@@ -5,8 +5,8 @@
 #include "ESP-FTP-Server-Lib.h"
 #include "FTPFilesystem.h"
 
-#define WIFI_SSID "Buchegger"
-#define WIFI_PASSWORD "PETER@pBuchegger.@"
+#define WIFI_SSID "SSID"
+#define WIFI_PASSWORD "PASSWORD"
 
 #define FTP_USER "ftp"
 #define FTP_PASSWORD "ftp"
