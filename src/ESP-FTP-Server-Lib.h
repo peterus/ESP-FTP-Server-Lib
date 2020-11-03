@@ -21,6 +21,8 @@ public:
 
 	bool begin();
 	void handle();
+	
+	size_t countConnections() const;
 
 private:
 	WiFiServer _Server;

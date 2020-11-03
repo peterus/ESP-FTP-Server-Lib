@@ -49,3 +49,8 @@ void FTPServer::handle()
 	}
 	_Connections.remove_if(isNotConnected);
 }
+
+size_t FTPServer::countConnections() const
+{
+	return _Connections.size();
+}
