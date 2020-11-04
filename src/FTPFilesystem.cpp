@@ -21,8 +21,7 @@ void FTPFilesystem::clearFilesystemList()
 
 File FTPFilesystem::open(const String & path, const char* mode)
 {
-	FS * fs = getFilesystem(path);
-	if(fs == 0)
+	if(path == "/")
 	{
 		std::shared_ptr<FTPFileImpl> root = std::shared_ptr<FTPFileImpl>(new FTPFileImpl("/"));
 		for(auto const & f: _Filesystems)
@@ -31,6 +30,7 @@ File FTPFilesystem::open(const String & path, const char* mode)
 		}
 		return File(root);
 	}
+	FS * fs = getFilesystem(path);
 	return fs->open(getPathWithoutFS(path), mode);
 }
 
