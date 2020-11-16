@@ -121,12 +121,22 @@ bool FTPConnection::handle()
 		{
 			c_USER();
 		}
+		else
+		{
+			_Client.println("500 Unknown command");
+			Serial.println("USER: 500 Unknown command");
+		}
 		break;
 
 	case UsernamePass:
 		if(command == "PASS")
 		{
 			c_PASS();
+		}
+		else
+		{
+			_Client.println("500 Unknown command");
+			Serial.println("PASS: 500 Unknown command");
 		}
 		break;
 
@@ -144,13 +154,15 @@ bool FTPConnection::handle()
 			if(cmdIter != _FTPCommands.end())
 			{
 				(*cmdIter)->run(_WorkDirectory, _LineSplited);
-				_Line = "";
-				return true;
+			}
+			else
+			{
+				_Client.println("500 Unknown command");
+				Serial.println("500 Unknown command");
 			}
 		}
 
 	default:
-		_Client.println("500 Unknow command");
 		break;
 	}
 	_Line = "";
