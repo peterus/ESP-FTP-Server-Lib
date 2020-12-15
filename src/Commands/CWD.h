@@ -12,7 +12,6 @@ public:
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		FTPPath path = WorkDirectory;
-		Serial.println(Line[1]);
 		if(Line[1] == "..")
 		{
 			path.goPathUp();

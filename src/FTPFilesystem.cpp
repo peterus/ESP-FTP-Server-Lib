@@ -1,3 +1,7 @@
+#ifdef NO_GLOBAL_INSTANCES
+#include <logger.h>
+#endif
+
 #include "FTPFilesystem.h"
 #include "common.h"
 
@@ -94,7 +98,11 @@ void FTPFilesystem::printFilesystems()
 {
 	for (auto const & fs: _Filesystems)
 	{
+#ifndef NO_GLOBAL_INSTANCES
 		Serial.println(fs.first);
+#else
+		logPrintlnI(fs.first);
+#endif
 	}
 }
 
@@ -105,7 +113,11 @@ FS * FTPFilesystem::getFilesystem(String path)
 	std::map<String, fs::FS *>::iterator iter = _Filesystems.find(name);
 	if(iter == _Filesystems.end())
 	{
+#ifndef NO_GLOBAL_INSTANCES
 		Serial.println("[ERROR] Filesystem not found!");
+#else
+		logPrintlnE("[ERROR] Filesystem not found!");
+#endif
 		return 0;
 	}
 	return iter->second;

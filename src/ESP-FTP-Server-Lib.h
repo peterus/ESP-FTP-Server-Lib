@@ -33,6 +33,4 @@ private:
 	FTPFilesystem _Filesystem;
 };
 
-#define FTP_DEBUG(txt) Serial.print("[DEBUG] "); Serial.println(txt)
-
 #endif

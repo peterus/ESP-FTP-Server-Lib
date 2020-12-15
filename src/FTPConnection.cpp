@@ -1,3 +1,7 @@
+#ifdef NO_GLOBAL_INSTANCES
+#include <logger.h>
+#endif
+
 #include "ESP-FTP-Server-Lib.h"
 #include "common.h"
 #include "Commands/CDUP.h"
@@ -35,10 +39,17 @@ FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & Use
 	_FTPCommandsTransfer.push_back(retr);
 	_FTPCommandsTransfer.push_back(stor);
 
+#ifndef NO_GLOBAL_INSTANCES
 	Serial.print("New Connection from ");
 	Serial.print(_Client.remoteIP());
 	Serial.print(":");
 	Serial.println(_Client.remotePort());
+#else
+	logPrintI("New Connection from ");
+	logPrintI(_Client.remoteIP().toString());
+	logPrintI(":");
+	logPrintlnI(String(_Client.remotePort()));
+#endif
 	_Client.println("220--- Welcome to FTP Server for ESP32 ---");
 	_Client.println("220---        By Peter Buchegger       ---");
 	_Client.println("220 --           Version 0.1           ---");
@@ -46,7 +57,11 @@ FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & Use
 
 FTPConnection::~FTPConnection()
 {
+#ifndef NO_GLOBAL_INSTANCES
 	Serial.println("Connection closed!");
+#else
+	logPrintlnI("Connection closed!");
+#endif
 }
 
 bool FTPConnection::readUntilLineEnd()
@@ -85,7 +100,11 @@ bool FTPConnection::handle()
 		return true;
 	}
 	// we have a new command in the queue:
+#ifndef NO_GLOBAL_INSTANCES
 	Serial.println(_Line);
+#else
+	logPrintlnD(_Line);
+#endif
 	String command = _LineSplited[0];
 
 	// This commands are always possible:
@@ -124,7 +143,11 @@ bool FTPConnection::handle()
 		else
 		{
 			_Client.println("500 Unknown command");
+#ifndef NO_GLOBAL_INSTANCES
 			Serial.println("USER: 500 Unknown command");
+#else
+			logPrintlnW("USER: 500 Unknown command");
+#endif
 		}
 		break;
 
@@ -136,7 +159,11 @@ bool FTPConnection::handle()
 		else
 		{
 			_Client.println("500 Unknown command");
+#ifndef NO_GLOBAL_INSTANCES
 			Serial.println("PASS: 500 Unknown command");
+#else
+			logPrintlnW("PASS: 500 Unknown command");
+#endif
 		}
 		break;
 
@@ -158,7 +185,11 @@ bool FTPConnection::handle()
 			else
 			{
 				_Client.println("500 Unknown command");
+#ifndef NO_GLOBAL_INSTANCES
 				Serial.println("500 Unknown command");
+#else
+				logPrintlnW("500 Unknown command");
+#endif
 			}
 		}
 
