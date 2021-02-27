@@ -270,5 +270,5 @@ void FTPConnection::c_PASS()
 		_ClientState = AuthPass;
 		return;
 	}
-	_Client.println("530 passwort not correct");
+	_Client.println("530 password not correct");
 }
