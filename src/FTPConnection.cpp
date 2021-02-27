@@ -116,6 +116,28 @@ bool FTPConnection::handle()
 		_Line = "";
 		return true;
 	}
+/**    Additional commads begin *************************************  by Akoro */
+	else if(command == "OPTS") // need for Win10 ftp
+    {
+        _Client.println("500 not implemented");
+        _Line = "";
+        return true;
+    }
+    else if(command == "NOOP")
+    {
+        _Client.println("200 Ok");
+        _Line = "";
+        return true;
+    }
+    else if(command == "FEAT")
+    {
+        _Client.println("211- Extensions suported:");
+        _Client.println(" MLSD");
+        _Client.println("211 End.");
+        _Line = "";
+        return true;
+    }
+/**    Additional commads end ************************************* by Akoro */
 	else if(command == "QUIT")
 	{
 		_Client.println("221 Goodbye");
