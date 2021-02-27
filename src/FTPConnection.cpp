@@ -16,6 +16,7 @@
 #include "Commands/RNFR_RNTO.h"
 #include "Commands/STOR.h"
 #include "Commands/TYPE.h"
+#include "Commands/MLSD.h"
 
 FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & UserList, FTPFilesystem & Filesystem)
 	: _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
@@ -27,6 +28,7 @@ FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & Use
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new CWD(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new DELE(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new LIST(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MLSD(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MKD(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new PORT(&_Client, &_DataAddress, &_DataPort)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new PWD(&_Client)));
