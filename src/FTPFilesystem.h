@@ -15,7 +15,7 @@ public:
 	void addFilesystem(String Name, FS * const Filesystem);
 	void clearFilesystemList();
 
-	File open(const String & path, const char* mode = FILE_READ);
+	File open(const String & path, const char* mode = "r");
 	bool exists(const String & path);
 	bool remove(const String & path);
 	bool rename(const String & pathFrom, const String & pathTo);
@@ -47,8 +47,20 @@ public:
 	void close() override {};
 	time_t getLastWrite() override { return 0; };
 	const char* name() const override { return _Name.c_str(); };
+#if   defined(ESP32)
 	boolean isDirectory(void) override { return true; };
+#elif defined(ESP8266)
+	boolean isDirectory(void) const override { return true; };
+    const char* fullName() const override {return name();};
+    bool isFile() const override { return true; };
+    bool truncate(uint32_t size) override { return true; };
+#endif
+
+#if   defined(ESP32)
 	fs::FileImplPtr openNextFile(const char* mode) override
+#elif defined(ESP8266)
+	fs::FileImplPtr openNextFile(const char* mode)
+#endif
 	{
 		if(_Filesystems.empty())
 		{
@@ -58,8 +70,11 @@ public:
 		_Filesystems.pop_front();
 		return fs::FileImplPtr(new FTPFileImpl(next));
 	}
+
+#if   defined(ESP32)
 	void rewindDirectory(void) override {};
 	operator bool() override { return false; };
+#endif
 
 	void addFilesystem(String name) { _Filesystems.push_back(name); }
 private:

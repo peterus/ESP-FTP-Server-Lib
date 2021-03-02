@@ -1,7 +1,11 @@
 #include "ESP-FTP-Server-Lib.h"
 
-FTPServer::FTPServer()
-	: _Server(FTP_CTRL_PORT, 1)
+FTPServer::FTPServer():
+#if   defined(ESP32)
+	_Server(FTP_CTRL_PORT, 1)
+#elif defined(ESP8266)
+	_Server(FTP_CTRL_PORT)
+#endif
 {
 }
 
