@@ -51,7 +51,7 @@ public:
 	boolean isDirectory(void) override { return true; };
 #elif defined(ESP8266)
 	boolean isDirectory(void) const override { return true; };
-    const char* fullName() const override {return name();};
+    const char* fullName() const override {return ("/"+_Name).c_str();};
     bool isFile() const override { return true; };
     bool truncate(uint32_t size) override { return true; };
 #endif

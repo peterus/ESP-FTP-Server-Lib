@@ -18,7 +18,7 @@ public:
 		{
 			return;
 		}
-		File dir = _Filesystem->open(WorkDirectory.getPath());
+		File dir = _Filesystem->open(WorkDirectory.getPath()); //
 		if(!dir || !dir.isDirectory())
 		{
 			CloseDataConnection();
@@ -26,7 +26,7 @@ public:
 			return;
 		}
 		int cnt = 0;
-
+//#ifdef ESP32
 		File f = dir.openNextFile(); // << crash here for esp8266
 		while(f)
 		{
@@ -52,7 +52,7 @@ public:
 			f.close();
 			f = dir.openNextFile();
 		}
-
+//#endif
 		CloseDataConnection();
 		SendResponse(226, String(cnt) + " matches total");
 	}
