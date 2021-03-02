@@ -11,7 +11,7 @@ public:
 	explicit LIST(WiFiClient * const Client, FTPFilesystem * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommand("LIST", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
-	
+
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		if(!ConnectDataConnection())
@@ -26,7 +26,8 @@ public:
 			return;
 		}
 		int cnt = 0;
-		File f = dir.openNextFile();
+
+		File f = dir.openNextFile(); // << crash here for esp8266
 		while(f)
 		{
 			String filename = f.name();
@@ -48,8 +49,10 @@ public:
 			}
 			data_println(filesize + " Jan 01  1970 " + filename);
 			cnt++;
+			f.close();
 			f = dir.openNextFile();
 		}
+
 		CloseDataConnection();
 		SendResponse(226, String(cnt) + " matches total");
 	}
