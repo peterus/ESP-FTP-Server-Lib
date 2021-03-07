@@ -22,7 +22,8 @@ void FTPPath::changePath(String path)
 
 void FTPPath::goPathUp()
 {
-	_Path.pop_back();
+	if(_Path.size() != 0) // Added Akoro 2021-02-27
+	    _Path.pop_back();
 }
 
 String FTPPath::getPath() const

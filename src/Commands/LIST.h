@@ -11,14 +11,14 @@ public:
 	explicit LIST(WiFiClient * const Client, FTPFilesystem * const Filesystem, IPAddress * DataAddress, int * DataPort)
 		: FTPCommand("LIST", 1, Client, Filesystem, DataAddress, DataPort)
 	{}
-	
+
 	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
 		if(!ConnectDataConnection())
 		{
 			return;
 		}
-		File dir = _Filesystem->open(WorkDirectory.getPath());
+		File dir = _Filesystem->open(WorkDirectory.getPath()); //
 		if(!dir || !dir.isDirectory())
 		{
 			CloseDataConnection();
@@ -48,6 +48,7 @@ public:
 			}
 			data_println(filesize + " Jan 01  1970 " + filename);
 			cnt++;
+			f.close();
 			f = dir.openNextFile();
 		}
 		CloseDataConnection();

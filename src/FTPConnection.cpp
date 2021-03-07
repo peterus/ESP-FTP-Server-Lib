@@ -16,6 +16,7 @@
 #include "Commands/RNFR_RNTO.h"
 #include "Commands/STOR.h"
 #include "Commands/TYPE.h"
+#include "Commands/MLSD.h"
 
 FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & UserList, FTPFilesystem & Filesystem)
 	: _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
@@ -27,6 +28,7 @@ FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & Use
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new CWD(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new DELE(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new LIST(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MLSD(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MKD(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new PORT(&_Client, &_DataAddress, &_DataPort)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new PWD(&_Client)));
@@ -114,6 +116,28 @@ bool FTPConnection::handle()
 		_Line = "";
 		return true;
 	}
+/**    Additional commads begin *************************************  by Akoro */
+	else if(command == "OPTS") // need for Win10 ftp
+    {
+        _Client.println("500 not implemented");
+        _Line = "";
+        return true;
+    }
+    else if(command == "NOOP")
+    {
+        _Client.println("200 Ok");
+        _Line = "";
+        return true;
+    }
+    else if(command == "FEAT")
+    {
+        _Client.println("211- Extensions suported:");
+        _Client.println(" MLSD");
+        _Client.println("211 End.");
+        _Line = "";
+        return true;
+    }
+/**    Additional commads end ************************************* by Akoro */
 	else if(command == "QUIT")
 	{
 		_Client.println("221 Goodbye");
@@ -246,5 +270,5 @@ void FTPConnection::c_PASS()
 		_ClientState = AuthPass;
 		return;
 	}
-	_Client.println("530 passwort not correct");
+	_Client.println("530 password not correct");
 }
