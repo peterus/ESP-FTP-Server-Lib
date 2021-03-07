@@ -16,15 +16,8 @@ FTPPath::~FTPPath()
 
 void FTPPath::changePath(String path)
 {
-if(*path.begin() == '/') // Added Akoro 2021-02-27
-    {                        //
-		_Path.clear();       //
-    }                        //
-    else                     //
-    {                        //
-		std::list<String> p = splitPath(path);
-	    std::copy(p.begin(), p.end(), std::back_inserter(_Path));
-	}                        //
+	std::list<String> p = splitPath(path);
+	std::copy(p.begin(), p.end(), std::back_inserter(_Path));
 }
 
 void FTPPath::goPathUp()

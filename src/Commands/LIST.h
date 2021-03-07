@@ -26,8 +26,7 @@ public:
 			return;
 		}
 		int cnt = 0;
-//#ifdef ESP32
-		File f = dir.openNextFile(); // << crash here for esp8266
+		File f = dir.openNextFile();
 		while(f)
 		{
 			String filename = f.name();
@@ -52,7 +51,6 @@ public:
 			f.close();
 			f = dir.openNextFile();
 		}
-//#endif
 		CloseDataConnection();
 		SendResponse(226, String(cnt) + " matches total");
 	}

@@ -15,7 +15,7 @@ public:
 	void addFilesystem(String Name, FS * const Filesystem);
 	void clearFilesystemList();
 
-	File open(const String & path, const char* mode = "r");
+	File open(const String & path, const char* mode = FILE_READ);
 	bool exists(const String & path);
 	bool remove(const String & path);
 	bool rename(const String & pathFrom, const String & pathTo);

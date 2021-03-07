@@ -79,8 +79,7 @@ class MLSD : public FTPCommand
 
     root.close();
     CloseDataConnection();
-    SendResponse(226, "MLSD completed");
-//    SendResponse(226, String(cnt) + " matches total");
+    SendResponse(226, String(cnt) + " matches total");
   }
 };
 
