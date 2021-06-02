@@ -73,7 +73,7 @@ public:
 
 #if   defined(ESP32)
 	void rewindDirectory(void) override {};
-	operator bool() override { return false; };
+	operator bool() override { return true; };
 #endif
 
 	void addFilesystem(String name) { _Filesystems.push_back(name); }
