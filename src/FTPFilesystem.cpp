@@ -35,6 +35,10 @@ File FTPFilesystem::open(const String & path, const char* mode)
 		return File(root);
 	}
 	FS * fs = getFilesystem(path);
+	if(fs == 0)
+	{
+		return File();
+	}
 	return fs->open(getPathWithoutFS(path), mode);
 }
 

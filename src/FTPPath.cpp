@@ -17,7 +17,14 @@ FTPPath::~FTPPath()
 void FTPPath::changePath(String path)
 {
 	std::list<String> p = splitPath(path);
-	std::copy(p.begin(), p.end(), std::back_inserter(_Path));
+	if (!path.isEmpty() && path[0] == '/')
+	{
+		_Path.assign(p.begin(), p.end());
+	}
+	else
+	{
+		std::copy(p.begin(), p.end(), std::back_inserter(_Path));
+	}
 }
 
 void FTPPath::goPathUp()

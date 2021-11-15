@@ -7,7 +7,9 @@
 #include "Commands/CDUP.h"
 #include "Commands/CWD.h"
 #include "Commands/DELE.h"
+#include "Commands/STAT.h"
 #include "Commands/LIST.h"
+#include "Commands/NLST.h"
 #include "Commands/MKD.h"
 #include "Commands/PORT.h"
 #include "Commands/PWD.h"
@@ -27,7 +29,9 @@ FTPConnection::FTPConnection(const WiFiClient & Client, std::list<FTPUser> & Use
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new CDUP(&_Client)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new CWD(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new DELE(&_Client, &_Filesystem)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new STAT(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new LIST(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
+	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new NLST(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MLSD(&_Client, &_Filesystem, &_DataAddress, &_DataPort)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new MKD(&_Client, &_Filesystem)));
 	_FTPCommands.push_back(std::shared_ptr<FTPCommand>(new PORT(&_Client, &_DataAddress, &_DataPort)));
