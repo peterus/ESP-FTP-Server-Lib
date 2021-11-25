@@ -3,16 +3,6 @@
 This library will provide a simple and modern FTP server for your ESP32 or ESP8266 device.
 You can setup multiple users and mutliple filesystems (SD-Card, MMC-Card or/and SPIFFS).
 
-## Changes by this fork
-
-New commands:
-* NLST
-* STAT
-
-other improvements:
-* The `FTPPath` class is extended so that absolute paths also work (used by some GUI-FTP clients).
-* Fixed panic in case of non existing filesystem (CWD /blah/something)
-
 ## Examples
 
 In the example folder you can find a very simple usage of the FTP server. You just need to setup the users, add the filesystems which you want to use, and call the handle function in the loop.
@@ -36,6 +26,8 @@ Currently all kind of simple commands are known to the server:
 * SYST
 * QUIT
 * ABOR
+* NLST
+* STAT
 
 ## What is still missing / TODO
 
