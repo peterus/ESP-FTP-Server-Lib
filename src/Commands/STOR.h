@@ -25,11 +25,11 @@ public:
 		{
 			return;
 		}
-		ftpFsFilePath = WorkDirectory.getFilePath(Line[1]);
-		_file = _Filesystem->open(ftpFsFilePath, "w");
+		_ftpFsFilePath = WorkDirectory.getFilePath(Line[1]);
+		_file = _Filesystem->open(_ftpFsFilePath, "w");
 		if (!_file)
 		{
-			SendResponse(451, "Can't open/create " + ftpFsFilePath);
+			SendResponse(451, "Can't open/create " + _ftpFsFilePath);
 			CloseDataConnection();
 			return;
 		}
@@ -46,7 +46,7 @@ public:
 			if (wb != nb)
 			{
 				_file.close();
-				this->_Filesystem->remove(ftpFsFilePath.c_str());
+				this->_Filesystem->remove(_ftpFsFilePath.c_str());
 
 				SendResponse(552, "Error occured while STORing");
 				CloseDataConnection();
@@ -61,7 +61,7 @@ public:
 	}
 
 private:
-	String ftpFsFilePath;
+	String _ftpFsFilePath;
 };
 
 #endif
