@@ -10,26 +10,27 @@
 class STOR : public FTPCommandTransfer
 {
 public:
-	explicit STOR(WiFiClient * const Client, FTPFilesystem * const Filesystem, IPAddress * DataAddress, int * DataPort)
+	explicit STOR(WiFiClient *const Client, FTPFilesystem *const Filesystem, IPAddress *DataAddress, int *DataPort)
 		: FTPCommandTransfer("STOR", 1, Client, Filesystem, DataAddress, DataPort)
-	{}
-	
-	void run(FTPPath & WorkDirectory, const std::vector<String> & Line) override
 	{
-		if(trasferInProgress())
+	}
+
+	void run(FTPPath &WorkDirectory, const std::vector<String> &Line) override
+	{
+		if (trasferInProgress())
 		{
 			return;
 		}
-		if(!ConnectDataConnection())
+		if (!ConnectDataConnection())
 		{
 			return;
 		}
-		String path = WorkDirectory.getFilePath(Line[1]);
-		_file = _Filesystem->open(path, "w");
-		if(!_file)
+		_ftpFsFilePath = WorkDirectory.getFilePath(Line[1]);
+		_file = _Filesystem->open(_ftpFsFilePath, "w");
+		if (!_file)
 		{
+			SendResponse(451, "Can't open/create " + _ftpFsFilePath);
 			CloseDataConnection();
-			SendResponse(451, "Can't open/create " + path);
 			return;
 		}
 		workOnData();
@@ -39,17 +40,28 @@ public:
 	{
 		uint8_t buffer[FTP_BUF_SIZE];
 		int nb = data_read(buffer, FTP_BUF_SIZE);
-		if(nb > 0)
+		if (nb > 0)
 		{
-			_file.write(buffer, nb);
+			const auto wb = _file.write(buffer, nb);
+			if (wb != nb)
+			{
+				_file.close();
+				this->_Filesystem->remove(_ftpFsFilePath.c_str());
+
+				SendResponse(552, "Error occured while STORing");
+				CloseDataConnection();
+			}
+
 			return;
 		}
-		CloseDataConnection();
+
 		SendResponse(226, "File successfully transferred");
+		CloseDataConnection();
 		_file.close();
 	}
 
 private:
+	String _ftpFsFilePath;
 };
 
 #endif
