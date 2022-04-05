@@ -6,6 +6,10 @@
 #include <FSImpl.h>
 #include "FTPPath.h"
 
+#ifndef FILE_READ
+#define FILE_READ "r"
+#endif
+
 class FTPFilesystem
 {
 public:
@@ -39,7 +43,11 @@ public:
 	explicit FTPFileImpl(String name) : _Name(name) {}
 	~FTPFileImpl() {}
 	size_t write(const uint8_t *buf, size_t size) override { return 0; };
+#if   defined(ESP32)
 	size_t read(uint8_t* buf, size_t size) override { return 0; };
+#elif defined(ESP8266)
+	int read(uint8_t* buf, size_t size) override { return 0; };
+#endif
 	void flush() override {};
 	bool seek(uint32_t pos, SeekMode mode) override { return false; };
 	size_t position() const override { return 0; };
