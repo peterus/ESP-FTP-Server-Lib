@@ -54,6 +54,7 @@ public:
 	size_t size() const override { return 0; };
 	void close() override {};
 	time_t getLastWrite() override { return 0; };
+	const char* path() const override { return "not implemented yet"; };
 	const char* name() const override { return _Name.c_str(); };
 #if   defined(ESP32)
 	boolean isDirectory(void) override { return true; };
