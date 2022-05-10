@@ -54,6 +54,11 @@ public:
 	size_t size() const override { return 0; };
 	void close() override {};
 	time_t getLastWrite() override { return 0; };
+#ifdef ESP_IDF_VERSION && ESP_IDF_VERSION_VAL
+	#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 0, 0)
+		const char* path() const override { return "not implemented yet"; };
+	#endif
+#endif
 	const char* name() const override { return _Name.c_str(); };
 #if   defined(ESP32)
 	boolean isDirectory(void) override { return true; };
