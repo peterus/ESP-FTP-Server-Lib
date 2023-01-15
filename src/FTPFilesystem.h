@@ -58,6 +58,14 @@ public:
 	#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 0, 0)
 		const char* path() const override { return "not implemented yet"; };
 	#endif
+	#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 4, 3)
+	    virtual boolean seekDir(long position) override {
+			return false;
+		}
+		virtual String getNextFileName(void) override {
+			return "";
+		}
+	#endif
 	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(2, 0, 3)
 		bool setBufferSize(size_t size) override { return false; };
 	#endif
