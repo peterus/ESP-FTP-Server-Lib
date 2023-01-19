@@ -3,12 +3,12 @@ on: workflow_dispatch
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: run PlatformIO Dependabot
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: run PlatformIO Dependabot
-        uses: peterus/platformio_dependabot@0.0.1
+        uses: peterus/platformio_dependabot@v0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_repo_path: 'peterus/ESP-FTP-Server-Lib'
