@@ -7,13 +7,13 @@ on:
     - cron: '0 0 * * 6'
 
 jobs:
-  hello_world_job:
+  dependabot:
     runs-on: ubuntu-latest
     name: run PlatformIO Dependabot
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: run PlatformIO Dependabot
-        uses: peterus/platformio_dependabot@v0.0.9
+        uses: peterus/platformio_dependabot@v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
