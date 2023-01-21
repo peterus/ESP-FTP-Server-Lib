@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  precompile:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,5 +17,5 @@ jobs:
       - run: ln -s ../examples/test.cpp src/test.cpp
       - name: run cppcheck
         run: pio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high --skip-packages -v
-      - name: build
+      - name: build PlatformIO project
         run: pio run
