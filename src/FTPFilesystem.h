@@ -65,6 +65,12 @@ public:
 		virtual String getNextFileName(void) override {
 			return "";
 		}
+	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(2, 0, 9)
+		virtual String getNextFileName(bool *isDir) override {
+			*isDir = isDirectory();
+			return getNextFileName();
+		}
+	#endif
 	#endif
 	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(2, 0, 3)
 		bool setBufferSize(size_t size) override { return false; };
