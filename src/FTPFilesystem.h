@@ -65,7 +65,7 @@ public:
 		virtual String getNextFileName(void) override {
 			return "";
 		}
-	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(2, 0, 9)
+	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(2, 0, 8)
 		virtual String getNextFileName(bool *isDir) override {
 			*isDir = isDirectory();
 			return getNextFileName();
