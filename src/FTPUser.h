@@ -3,12 +3,12 @@
 
 #include <Arduino.h>
 
-class FTPUser
-{
+class FTPUser {
 public:
-	FTPUser(const String & username, const String & password) : Username(username), Password(password) {}
-	const String Username;
-	const String Password;
+  FTPUser(const String &username, const String &password) : Username(username), Password(password) {
+  }
+  const String Username;
+  const String Password;
 };
 
 #endif
