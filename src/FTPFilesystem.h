@@ -132,7 +132,10 @@ public:
   }
 
 #if defined(ESP32)
-  void rewindDirectory(void) override{};
+  void rewindDirectory(void) override {
+    return;
+  };
+
   operator bool() override {
     return true;
   };
