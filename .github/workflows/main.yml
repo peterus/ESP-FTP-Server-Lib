@@ -69,7 +69,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Run PlatformIO Check
-        run: pio check --fail-on-defect high --fail-on-defect medium --fail-on-defect low -e lora_board
+        run: pio check --fail-on-defect high --fail-on-defect medium --fail-on-defect low
 
   cppcheck-docker:
     name: Run cppcheck in Docker
