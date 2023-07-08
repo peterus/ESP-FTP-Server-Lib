@@ -71,10 +71,11 @@ bool FTPConnection::readUntilLineEnd() {
   while (_Client.available()) {
     char c = _Client.read();
     if (c == '\n') {
-      _LineSplited = Split<std::vector<String>>(_Line, ' ');
+      uint32_t index_separator = _Line.indexOf(' ');
+      _LineSplited = {_Line.substring(0, index_separator), _Line.substring(index_separator + 1, _Line.length())};
       return true;
     }
-    if (c >= 32 && c < 127) {
+    if (c >= 32) {
       _Line += c;
     }
   }
