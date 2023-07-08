@@ -72,7 +72,7 @@ bool FTPConnection::readUntilLineEnd() {
     char c = _Client.read();
     if (c == '\n') {
       uint32_t index_separator = _Line.indexOf(' ');
-      _LineSplited = {_Line.substring(0, index_separator), _Line.substring(index_separator + 1, _Line.length())};
+      _LineSplited             = {_Line.substring(0, index_separator), _Line.substring(index_separator + 1, _Line.length())};
       return true;
     }
     if (c >= 32) {
