@@ -71,10 +71,11 @@ bool FTPConnection::readUntilLineEnd() {
   while (_Client.available()) {
     char c = _Client.read();
     if (c == '\n') {
-      _LineSplited = Split<std::vector<String>>(_Line, ' ');
+      uint32_t index_separator = _Line.indexOf(' ');
+      _LineSplited             = {_Line.substring(0, index_separator), _Line.substring(index_separator + 1, _Line.length())};
       return true;
     }
-    if (c >= 32 && c < 127) {
+    if (c >= 32) {
       _Line += c;
     }
   }
@@ -110,7 +111,11 @@ bool FTPConnection::handle() {
   /**    Additional commads begin *************************************  by Akoro */
   else if (command == "OPTS") // need for Win10 ftp
   {
-    _Client.println("500 not implemented");
+    if (_LineSplited[1] == "UTF8 ON") {
+      _Client.println("200 Ok");
+    } else {
+      _Client.println("500 not implemented");
+    }
     _Line = "";
     return true;
   } else if (command == "NOOP") {
@@ -119,6 +124,7 @@ bool FTPConnection::handle() {
     return true;
   } else if (command == "FEAT") {
     _Client.println("211- Extensions suported:");
+    _Client.println(" UTF8");
     _Client.println(" MLSD");
     _Client.println("211 End.");
     _Line = "";
