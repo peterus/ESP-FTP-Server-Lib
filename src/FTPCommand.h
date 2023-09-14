@@ -66,10 +66,10 @@ public:
   }
 
   int data_read(uint8_t *c, size_t l) {
-    if (_DataConnection == 0 || !_DataConnection->connected()) {
-      return 0;
+    if ((_DataConnection != 0) && (_DataConnection->available() > 0)) {
+      return _DataConnection->readBytes(c, l);
     }
-    return _DataConnection->readBytes(c, l);
+    return 0;
   }
 
   void CloseDataConnection() {
